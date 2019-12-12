@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @Configuration
+//아래의 어노테이션이 로그인 시도 시 낚아채주는 역할을 해준다.
 @EnableWebSecurity //스프링 시큐리티 필터에 등록하는 어노테이션
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -31,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().disable();
 		http.authorizeRequests()
 		//이거 3개 빼고는 다 열려있어
-		.antMatchers("/user/**", "/follow/**", "/image/**")
+		.antMatchers("/", "/user/**", "/follow/**", "/image/**")
 		.authenticated()
 		.anyRequest()
 		.permitAll()
@@ -39,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.formLogin()
 		.loginPage("/auth/login")
 		.loginProcessingUrl("/auth/loginProc")
-		.defaultSuccessUrl("/test/feed");
+		.defaultSuccessUrl("/");
 		
 		
 	}

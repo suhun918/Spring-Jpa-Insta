@@ -5,7 +5,10 @@
   max-width: 1000px;
   font-size: 16px;
 }
-
+.profile__stat a{
+	text-decoration: none;
+	color:black;
+}
 #profile .profile__header {
   display: flex;
   justify-content: space-between;
@@ -44,7 +47,18 @@
   margin-right: 10px;
 }
 
-.profile__title a button {
+.profile_follow_btn {
+  color:white;
+  background: #3c88de;
+  border: 0;
+  font-weight: 600;
+  padding: 5px 15px;
+  border-radius: 3px;
+  font-size: 14px;
+  border: 1px solid rgba(0, 0, 0, .0975);
+}
+
+.profile_edit_btn {
   border: 0;
   font-weight: 600;
   padding: 5px 15px;

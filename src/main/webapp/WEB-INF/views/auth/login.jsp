@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Login | Instagram</title>
+<title>Sign in | Instagram</title>
 <link
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 	rel="stylesheet">
@@ -24,16 +24,16 @@
 				<form action="/auth/loginProc" method="post" class="login__form">
 					<input type="text" name="username" placeholder="Username" required><br />
 					<input type="password" name="password" placeholder="Password"
-						required><br /> <input type="submit" value="Log in">
+						required><br /> <input type="submit" value="로그인">
 				</form>
 				<span class="login__divider"> or </span> <a
 					href="http://facebook.com" class="login__fb-link"><i
-					class="fa fa-facebook-square"></i> Log in with Facebook</a> <a href="#"
-					class="login__small-link">Forgot password?</a>
+					class="fa fa-facebook-square"></i> Facebook으로 로그인</a> <a href="#"
+					class="login__small-link">비밀번호를 잊으셨나요?</a>
 			</div>
 			<div class="login__box">
-				<span class="login__text"> Don't have an account? <br />
-				</span> <a class="login__blue-link" href="#">Sign up</a>
+				<span class="login__text"> 계정이 없으신가요? <br />
+				</span><p>　</p><a class="login__blue-link" href="/auth/join">가입하기</a>
 			</div>
 			<div class="login__t-box">
 				<span class="login__text"> Get the app. </span>
