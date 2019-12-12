@@ -37,8 +37,9 @@ public class Follow {
 	@JsonIgnoreProperties({"images"})
 	private User toUser;
 	
+	//팔로우 팔로워 창에서 로그인 한 사용자의 팔로우상태체크
 	@Transient//DB에 안들어가게 함
-	private boolean matpal;
+	private boolean followState;
 	
 	@CreationTimestamp // 자동으로 현재시간이 세팅
 	private Timestamp createDate;
