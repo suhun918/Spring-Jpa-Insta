@@ -47,4 +47,4 @@ spring:
       
 #파일 저장할 경로
 file:
-  path: C:/src/instaclone/insta/src/main/resources/upload/
+  path: C:/src/instaclone/insta/src/main/resources/static/upload/

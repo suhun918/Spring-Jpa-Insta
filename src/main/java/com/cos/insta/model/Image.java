@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +20,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
@@ -42,6 +46,7 @@ public class Image {
 	private User user; // 누가 찍은 사진인지
 	
 	//(1) Tag <List>
+	//@OneToMany(mappedBy = "image", cascade = CascadeType.PERSIST)
 	@OneToMany(mappedBy = "image")
 	@JsonManagedReference
 	private List<Tag> tags = new ArrayList<>();
