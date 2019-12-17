@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,18 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.insta.model.Image;
+import com.cos.insta.model.Likes;
 import com.cos.insta.model.Tag;
 import com.cos.insta.model.User;
 import com.cos.insta.repository.ImageRepository;
+import com.cos.insta.repository.LikesRepository;
 import com.cos.insta.repository.TagRepository;
 import com.cos.insta.security.MyUserDetails;
 import com.cos.insta.util.Utils;
@@ -40,6 +45,61 @@ public class ImageController {
 	@Autowired
 	private TagRepository mTagRepo;
 	
+	@Autowired
+	private LikesRepository mLikesRepo;
+	
+	@PostMapping("/image/like/{id}")
+	public @ResponseBody String imageLike(
+			@PathVariable("id") int imageId,
+			@AuthenticationPrincipal MyUserDetails userDetails) 
+	{
+		Likes oldLike = mLikesRepo.findByUserIdAndImageId(userDetails.getUser().getId(), imageId);
+		
+		Optional<Image> oImage = mImageRepo.findById(imageId);
+		Image image = oImage.get();
+		
+		try {
+			if(oldLike == null) {//좋아요 안한상태 (추가)
+				Likes newLike = Likes.builder()
+						.user(userDetails.getUser())
+						.image(image)
+						.build();
+				mLikesRepo.save(newLike);
+			}else {// 좋아요 한 상태 (삭제)
+				mLikesRepo.delete(oldLike);
+			}
+			return "ok";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "fail";
+	}
+	
+	// http://localhost:8080/image/feed/scroll?page=1..2..3..
+	@GetMapping({"/image/feed/scroll"})
+	public @ResponseBody List<Image> imageFeedScroll(
+			//얘가 세션과 같은 역할을 하게 된다
+			@AuthenticationPrincipal MyUserDetails userDetails,
+			@PageableDefault(size = 3, sort = "id", direction = Sort.Direction.DESC)
+			Pageable pageable,
+			Model model
+			) {
+		
+		//1. 내가 팔로우한 친구들의 사진
+		Page<Image> pageImages = 
+				mImageRepo.findImage(userDetails.getUser().getId(), pageable);
+		
+		List<Image> images = pageImages.getContent();
+		for (Image image : images) {
+			Likes like = mLikesRepo.findByUserIdAndImageId(userDetails.getUser().getId(), image.getId());
+			if(like != null) {
+				image.setHeart(true);
+			}
+		}
+		
+		return images;
+	}
+	
 	@GetMapping({"/", "/image/feed"})
 	public String imageFeed(
 			//얘가 세션과 같은 역할을 하게 된다
@@ -54,7 +114,14 @@ public class ImageController {
 				mImageRepo.findImage(userDetails.getUser().getId(), pageable);
 		
 		List<Image> images = pageImages.getContent();
-		model.addAttribute("images", images);	
+//		포문을 돌리면서 사진 세장을 뽑고 그 세장을 내가 좋아요했는지 확인
+		for (Image image : images) {
+			Likes like = mLikesRepo.findByUserIdAndImageId(userDetails.getUser().getId(), image.getId());
+			if(like != null) {
+				image.setHeart(true);
+			}
+		}
+		model.addAttribute("images", images);
 		
 		return "image/feed";
 	}
@@ -122,5 +189,6 @@ public class ImageController {
 		return "redirect:/";
 	}
 	
+
 	
 }

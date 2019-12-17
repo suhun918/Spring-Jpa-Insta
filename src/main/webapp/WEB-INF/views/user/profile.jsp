@@ -18,14 +18,15 @@
 	<main id="profile">
 		<header class="profile__header">
 			<div class="avatar__container">
-				<form id="frm_profile_img" action="/user/profileUpload" method="post">
+				<form id="frm_profile_img" action="/user/profileUpload" method="post" enctype="multipart/form-data">
 					<input type="file" name="profileImage" style="display: none;" />
 				</form>
-				<img src="/images/avatar.jpg" id="profile_image" style="cursor: pointer" />
+				<img src="/upload/${user.profileImage}" onerror="this.onerror=null; this.src='/images/avatar.jpg'" id="profile_image" style="cursor: pointer" />
 			</div>
-			<div class="profile__info">
+			<div class="profile__info">	
 				<div class="profile__title">
 					<h1>${user.username}</h1>
+					
 					
 					<c:if test="${principal.user.id ne user.id}">
 					<div id="follow_check">
@@ -42,10 +43,10 @@
 					
 					<c:if test="${principal.user.id eq user.id}">
 					<a href="/image/upload">
-					<button class="profile_follow_btn">사진 업로드</button>
+					<button class="profile_follow_btn">사진등록</button>
 					</a>
 					<a href="/user/edit/${principal.user.id}">
-						<button class="profile_edit_btn">Edit Profile</button>
+						<button class="profile_edit_btn">회원정보</button>
 					</a> <i class="fa fa-cog fa-lg"></i>
 					</c:if>
 				</div>
@@ -59,8 +60,8 @@
 				</p>
 			</div>
 		</header>
+		
 		<div class="profile__photo-grid">
-			<div class="profile__photo-row">
 				<div class="profile__photo">
 					<a href="image-detail.html"> <img src="/images/feedPhoto.jpg">
 						<div class="profile__photo-overlay">
@@ -79,6 +80,7 @@
 						</div>
 					</a>
 				</div>
+				
 				<div class="profile__photo">
 					<a href="image-detail.html"> <img src="/images/feedPhoto.jpg">
 						<div class="profile__photo-overlay">
@@ -88,65 +90,6 @@
 						</div>
 					</a>
 				</div>
-			</div>
-			<div class="profile__photo-row">
-				<div class="profile__photo">
-					<a href="image-detail.html"> <img src="/images/feedPhoto.jpg">
-						<div class="profile__photo-overlay">
-							<span class="profile__photo-stat"> <i class="fa fa-heart"></i> 504
-							</span> <span class="profile__photo-stat"> <i class="fa fa-comment"></i> 22
-							</span>
-						</div>
-					</a>
-				</div>
-				<div class="profile__photo">
-					<a href="image-detail.html"> <img src="/images/feedPhoto.jpg">
-						<div class="profile__photo-overlay">
-							<span class="profile__photo-stat"> <i class="fa fa-heart"></i> 504
-							</span> <span class="profile__photo-stat"> <i class="fa fa-comment"></i> 22
-							</span>
-						</div>
-					</a>
-				</div>
-				<div class="profile__photo">
-					<a href="image-detail.html"> <img src="/images/feedPhoto.jpg">
-						<div class="profile__photo-overlay">
-							<span class="profile__photo-stat"> <i class="fa fa-heart"></i> 504
-							</span> <span class="profile__photo-stat"> <i class="fa fa-comment"></i> 22
-							</span>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="profile__photo-row">
-				<div class="profile__photo">
-					<a href="image-detail.html"> <img src="/images/feedPhoto.jpg">
-						<div class="profile__photo-overlay">
-							<span class="profile__photo-stat"> <i class="fa fa-heart"></i> 504
-							</span> <span class="profile__photo-stat"> <i class="fa fa-comment"></i> 22
-							</span>
-						</div>
-					</a>
-				</div>
-				<div class="profile__photo">
-					<a href="image-detail.html"> <img src="/images/feedPhoto.jpg">
-						<div class="profile__photo-overlay">
-							<span class="profile__photo-stat"> <i class="fa fa-heart"></i> 504
-							</span> <span class="profile__photo-stat"> <i class="fa fa-comment"></i> 22
-							</span>
-						</div>
-					</a>
-				</div>
-				<div class="profile__photo">
-					<a href="image-detail.html"> <img src="/images/feedPhoto.jpg">
-						<div class="profile__photo-overlay">
-							<span class="profile__photo-stat"> <i class="fa fa-heart"></i> 504
-							</span> <span class="profile__photo-stat"> <i class="fa fa-comment"></i> 22
-							</span>
-						</div>
-					</a>
-				</div>
-			</div>
 		</div>
 	</main>
 
@@ -161,17 +104,21 @@
 	<script type="text/javascript" src="/js/profile.js" ></script> 
 	
 	<script>
-		
-		$(function() {
-			//이미지 클릭시 업로드창 실행
-			$('#profile_image').click(function() {
+	let userId = ${user.id};
+	let principalId = ${principal.user.id}
+	$(function() {
+		//이미지 클릭시 업로드창 실행
+		$('#profile_image').click(function() {
+			if(userId === principalId){
 				$("input[name='profileImage']").click();
-			})
-			//업로드 파일체인지가 됬을경우 실행되는 이벤트  form태그에 fileProfile은 hidden으로 넣어줌
-			$("input[name='profileImage']").change(function(e) {
-				$("#frm_profile_img").submit();
-			})
+			}
+			
 		})
+		//업로드 파일체인지가 됬을경우 실행되는 이벤트  form태그에 fileProfile은 hidden으로 넣어줌
+		$("input[name='profileImage']").change(function(e) {
+			$("#frm_profile_img").submit();
+		})
+	})
 	</script>
 </body>
 

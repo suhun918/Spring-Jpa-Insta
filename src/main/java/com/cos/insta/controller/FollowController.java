@@ -36,7 +36,7 @@ public class FollowController {
 		User fromUser = userDetails.getUser();
 		Optional<User> oToUser = mUserRepo.findById(id);
 		User toUser = oToUser.get();
-
+		
 		Follow follow = new Follow();
 		follow.setFromUser(fromUser);
 		follow.setToUser(toUser);

@@ -1,8 +1,14 @@
 package com.cos.insta.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -10,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.insta.model.User;
 import com.cos.insta.repository.FollowRepository;
@@ -27,6 +35,33 @@ public class UserController {
 	
 	@Autowired
 	private FollowRepository mFollowRepo;
+	
+	@Value("${file.path}")
+	private String fileRealPath;
+	
+	
+	@PostMapping("user/profileUpload")
+	public String userProfileUpload
+	(
+			@RequestParam("profileImage") MultipartFile file,
+			@AuthenticationPrincipal MyUserDetails userDetails
+	)throws IOException
+	{
+		//업로드 후에 회원 자기 페이지로 돌아가는 용도
+		User principal = userDetails.getUser();
+		
+		//파일 처리(파일을 write해서 쓰고 해당 경로만 디비에 저장)
+		UUID uuid = UUID.randomUUID();
+		String uuidFilename = uuid+"_"+file.getOriginalFilename();
+		Path filePath = Paths.get(fileRealPath+uuidFilename);
+		Files.write(filePath, file.getBytes());		
+		
+		principal.setProfileImage(uuidFilename);
+		mUserRepo.save(principal);
+		return "redirect:/user/"+principal.getId();
+	}
+	
+	
 	
 	@GetMapping("/auth/join")
 	public String join() {

@@ -59,6 +59,10 @@ public class Image {
 	@Transient //DB에 영향을 미치지 않는다.
 	private int likeCount;//피드페이지에서 이미지를 불러올 때 보일 좋아요 개수
 	
+	//좋아요 여부 
+	@Transient
+	private boolean heart;
+	
 	//(3) 댓글 하고싶으면 직접 추가해
 	@CreationTimestamp
 	private Timestamp createDate;
