@@ -48,6 +48,28 @@ public class ImageController {
 	@Autowired
 	private LikesRepository mLikesRepo;
 	
+	
+	@GetMapping("/image/explore")
+	public String imageExplore
+	(		
+			Model model,
+			@PageableDefault(size = 9, sort = "id", direction = Sort.Direction.DESC)
+			Pageable pageable
+	)
+	{	
+		//알고리즘(조회수가 높은것, 내주변에서 좋아요가 가장 많은 순으로 해보는 것 추천)
+		Page<Image> pImages = mImageRepo.findAll(pageable);
+		List<Image> images = pImages.getContent();
+		//4. likeCount
+		for (Image item : images) {
+			int likeCount = mLikesRepo.countByImageId(item.getId());
+			item.setLikeCount(likeCount);
+		}
+		model.addAttribute("images", images);
+		return "image/explore";
+	}
+	
+	
 	@PostMapping("/image/like/{id}")
 	public @ResponseBody String imageLike(
 			@PathVariable("id") int imageId,
@@ -95,6 +117,8 @@ public class ImageController {
 			if(like != null) {
 				image.setHeart(true);
 			}
+			int likeCount = mLikesRepo.countByImageId(image.getId());
+			image.setLikeCount(likeCount);
 		}
 		
 		return images;
@@ -120,15 +144,14 @@ public class ImageController {
 			if(like != null) {
 				image.setHeart(true);
 			}
+			//라이크카운트
+			int likeCount = mLikesRepo.countByImageId(image.getId());
+			image.setLikeCount(likeCount);
 		}
+
 		model.addAttribute("images", images);
 		
 		return "image/feed";
-	}
-	
-	@GetMapping({"/image/explore"})
-	public String explore() {
-		return "image/explore";
 	}
 	
 	@GetMapping("/image/upload")

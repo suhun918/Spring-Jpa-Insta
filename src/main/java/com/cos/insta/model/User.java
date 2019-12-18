@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -36,11 +37,16 @@ public class User {
 	private String gender;
 	private String profileImage; //프로필사진 경로+이름
 	
+	//하나로는 불안하니까 두개를 묶어 중복키로 생성한다
+	private String provider; // kakao, google, facebook
+	private String providerId;
+	
 	// (1) findById() 때만 동작
 	// (2) findByUserInfo()때는 제외 (쿼리문 만들어서)
 	@OneToMany(mappedBy="user")//리스트라서 기본전략 Lazy
 	//순환참조 막아줌
 	@JsonIgnoreProperties({"user", "tags", "likes"})
+	@OrderBy("id DESC")
 	private List<Image> images = new ArrayList<>();
 	//리스트 일 때는 new를 미리 해주는 것이 좋다.
 	

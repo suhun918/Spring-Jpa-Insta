@@ -27,8 +27,7 @@
 						required><br /> <input type="submit" value="로그인">
 				</form>
 				<span class="login__divider"> or </span> <a
-					href="http://facebook.com" class="login__fb-link"><i
-					class="fa fa-facebook-square"></i> Facebook으로 로그인</a> <a href="#"
+					href="/auth/kakao/login" class="login__fb-link"><img  src="/images/kakao_account_login_btn_medium_narrow.png"></i></a> <a href="#"
 					class="login__small-link">비밀번호를 잊으셨나요?</a>
 			</div>
 			<div class="login__box">

@@ -7,4 +7,6 @@ import com.cos.insta.model.Likes;
 public interface LikesRepository extends JpaRepository<Likes, Integer> {
 	// 내가 좋아요 한 이미지 찾으려고
 	Likes findByUserIdAndImageId(int userId, int imageId);
+	
+	int countByImageId(int imageId);
 }
