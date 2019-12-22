@@ -33,7 +33,7 @@ public class Likes {
 	@ManyToOne //양쪽으로 관계를 그려서 항상 생각하고 써라
 	@JoinColumn(name = "userId")
 	//좋아요를 눌렀을 때 필요한 profileImage, userId, username을 제외하고 제외해준다.
-	@JsonIgnoreProperties({"images", "password", "name", "website", "bio", "email", "phone", "gender", "updateDate", "createDate"})
+	@JsonIgnoreProperties({"images", "password", "name", "website", "bio", "email", "phone", "gender", "updateDate", "createDate", "provider", "providerId"})
 	private User user;
 	
 	//한장의 이미지에 여러개의 좋아요박힘, 하나의 좋아요는 하나의 이미지에만 박힘

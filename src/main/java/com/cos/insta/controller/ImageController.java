@@ -70,30 +70,40 @@ public class ImageController {
 	}
 	
 	
+	// 수정 좋아요 카운트 증가
 	@PostMapping("/image/like/{id}")
 	public @ResponseBody String imageLike(
-			@PathVariable("id") int imageId,
-			@AuthenticationPrincipal MyUserDetails userDetails) 
-	{
-		Likes oldLike = mLikesRepo.findByUserIdAndImageId(userDetails.getUser().getId(), imageId);
+			@PathVariable int id,
+			@AuthenticationPrincipal MyUserDetails userDetails
+	) {
 		
-		Optional<Image> oImage = mImageRepo.findById(imageId);
+		Likes oldLike = mLikesRepo.findByUserIdAndImageId(
+				userDetails.getUser().getId(), 
+				id);
+		
+		Optional<Image> oImage = mImageRepo.findById(id);
 		Image image = oImage.get();
 		
 		try {
-			if(oldLike == null) {//좋아요 안한상태 (추가)
+			if(oldLike == null) { // 좋아요 안한 상태 (추가)
 				Likes newLike = Likes.builder()
-						.user(userDetails.getUser())
 						.image(image)
+						.user(userDetails.getUser())
 						.build();
+				
 				mLikesRepo.save(newLike);
-			}else {// 좋아요 한 상태 (삭제)
+				// 좋아요 카운트 증가(리턴 값 수정)
+				return "like";
+			}else { // 좋아요 한 상태 (삭제)
 				mLikesRepo.delete(oldLike);
+				// 좋아요 카운트 증가(리턴 값 수정)
+				return "unLike";
 			}
-			return "ok";
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return "fail";
 	}
 	

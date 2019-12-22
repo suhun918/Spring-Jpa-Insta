@@ -48,7 +48,8 @@
                   </span> <span class="photo__action"> <i class="fa fa-comment-o"></i>
                   </span>
                </div>
-               <span class="photo__likes">${image.likeCount}명이 좋아합니다. </span>
+               <!-- 수정 좋아요 카운트 증가 -->
+<span class="photo__likes" id="photo_likes_count_${image.id}">${image.likeCount}</span><span class="photo__likes"> Likes</span>
                <div class="photo_caption">
                   <span class="photo__username">
                      ${image.user.username}
@@ -60,12 +61,12 @@
                      #${tag.name}  
                   </c:forEach>
                </div>
-               <ul class="photo__comments">
+<!--                <ul class="photo__comments">
                   <li class="photo__comment"><span class="photo__comment-author">serranoarevalo</span> i
                      love this!</li>
                   <li class="photo__comment"><span class="photo__comment-author">serranoarevalo</span> i
                      don't love this!</li>
-               </ul>
+               </ul> -->
                <span class="photo__date">${image.createDate}</span>
                <div class="photo__add-comment-container">
                   <textarea placeholder="Add a comment..."></textarea>

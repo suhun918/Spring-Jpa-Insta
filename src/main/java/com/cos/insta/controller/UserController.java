@@ -152,7 +152,6 @@ public class UserController {
 		
 		//값 변경
 		user.setName(requestUser.getName());
-		user.setUsername(requestUser.getUsername());
 		user.setWebsite(requestUser.getWebsite());
 		user.setBio(requestUser.getBio());
 		user.setEmail(requestUser.getEmail());
