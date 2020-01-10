@@ -22,7 +22,7 @@
         <div class="explore__content">
           <img src="/upload/${follower.fromUser.profileImage}" onerror="this.onerror=null; this.src='/images/avatar.jpg'"/>
           <div class="explore__info">
-            <span class="explore__username">${follower.fromUser.username}</span>
+            <span class="explore__username"><a style="color:black;" href="/user/${follower.fromUser.id}">${follower.fromUser.username}</a></span>
           </div>
         </div>
         

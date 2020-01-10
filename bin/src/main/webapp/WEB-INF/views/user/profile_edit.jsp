@@ -35,10 +35,6 @@
           <input id="name" name="name" type="text" value="${principal.user.name }">
         </div>
         <div class="edit-profile__row">
-          <label class="edit-profile__label" for="username">Username</label>
-          <input id="username" name="username" type="text" value="${principal.user.username}">
-        </div>
-        <div class="edit-profile__row">
           <label class="edit-profile__label" for="website">Website</label>
           <input id="website" name="website" type="url" value="${principal.user.website}">
         </div>

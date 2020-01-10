@@ -28,7 +28,7 @@
 						required><br /> <input type="submit" value="로그인">
 				</form>
 				<span class="login__divider"> or </span>
-				 <a href="javascript:newLogin()" class="login__fb-link"><img  src="/images/kakao_account_login_btn_medium_narrow.png"></i></a> <a href="#"
+				 <a href="/auth/kakao/login" class="login__fb-link"><img  src="/images/kakao_account_login_btn_medium_narrow.png"></i></a> <a href="#"
 					class="login__small-link">비밀번호를 잊으셨나요?</a>
 			</div>
 			<div class="login__box">
@@ -45,7 +45,7 @@
 		</div>
 	</main>
 	
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	Kakao.init('42de5a41d564e6d87f68726e4fc807db')
 	function newLogin(){
 		Kakao.Auth.loginForm({
@@ -55,7 +55,7 @@
 			})
 		}
 
-</script>	
+</script> -->	
 	<%@ include file="../include/footer.jsp"%>
 </body>
 </html>

@@ -26,7 +26,7 @@ function make_feed_box(image){
       
    feed_box += `</span> <span class="photo__action">`;
    feed_box += `<i class="fa fa-comment-o"></i></span></div>`;
-   feed_box += `<span class="photo__likes">${image.likeCount}명이 좋아합니다.</span><div class="photo_caption">`;
+   feed_box += `<span class="photo__likes" id="photo_likes_count_${image.id}">${image.likeCount}</span><span class="photo__likes"> likes</span><div class="photo_caption">`;
    feed_box += `<span class="photo__username">${image.user.username} </span>`;
    feed_box += `${image.caption}</div><div class="photo_tag">`;
     
@@ -35,11 +35,13 @@ function make_feed_box(image){
    });
    
    feed_box +=`</div>`;
-   feed_box += `<ul class="photo__comments"><li class="photo__comment">`;
-   feed_box += `<span class="photo__comment-author">serranoarevalo</span>`;
-   feed_box += `i love this!</li><li class="photo__comment">`;
-   feed_box += `<span class="photo__comment-author">serranoarevalo</span>`;
-   feed_box += `i don't love this!</li></ul><span class="photo__date">${image.createDate}</span>`;
+   
+//   feed_box += `<ul class="photo__comments"><li class="photo__comment">`;
+//   feed_box += `<span class="photo__comment-author">serranoarevalo</span>`;
+//   feed_box += `i love this!</li><li class="photo__comment">`;
+//   feed_box += `<span class="photo__comment-author">serranoarevalo</span>`;
+//   feed_box += `i don't love this!</li></ul>
+   feed_box += `<span class="photo__date">${image.createDate}</span>`;
    feed_box += `<div class="photo__add-comment-container">`;
    feed_box += `<textarea placeholder="Add a comment..."></textarea>`;
     feed_box += `<i class="fa fa-ellipsis-h"></i></div></div></div >`;
